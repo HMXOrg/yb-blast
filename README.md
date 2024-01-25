@@ -1,66 +1,25 @@
-## Foundry
+# Yield Bearing Tokens on Blast
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+ybBLAST is a smart contract built to wrap auto-rebasing tokens on Blast, functioning similar to wstETH. The balances of all yield-bearing tokens will remain static, while the conversion rate to the actual underlying asset will continuously increase.
 
-Foundry consists of:
+ybBLAST consists of:
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+- **ybETH**: An ERC-4626 compatible token that wraps both WETH and ETH on Blast.
 
-## Documentation
+## ybBLAST Contract Addresses
 
-https://book.getfoundry.sh/
+| Chain         | Address                                                                                                                       |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Blast Sepolia | [0xA0e4944b2f953c2E76872E84F9CC89AE94bC70e8](https://testnet.blastscan.io/address/0xA0e4944b2f953c2E76872E84F9CC89AE94bC70e8) |
 
 ## Usage
 
-### Build
-
-```shell
-$ forge build
-```
-
-### Test
+### Running tests
 
 ```shell
 $ forge test
 ```
 
-### Format
+## Licensing
 
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+The primary license for ybBLAST is the MIT License, see [License](https://github.com/HMXOrg/yb-blast/blob/master/LICENSE) for more details.
