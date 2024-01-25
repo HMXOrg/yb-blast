@@ -188,7 +188,7 @@ contract ybETH is ERC20 {
   /// @param _receiver The receiver of the assets.
   /// @param _owner The owner of the ybETH.
   function _withdraw(bool _isEthOut, uint256 _assets, address _receiver, address _owner)
-    public
+    internal
     returns (uint256 _shares)
   {
     // Claim all pending yield
