@@ -121,7 +121,7 @@ contract ybUSDB is ERC20 {
     emit Withdraw(msg.sender, _receiver, _owner, _assets, _shares);
   }
 
-  /// @notice Withdraw WETH by specifying the amount of assets that user wishes to receive.
+  /// @notice Withdraw USDB by specifying the amount of assets that user wishes to receive.
   /// @dev This function follows ERC-4626 standard.
   /// @param _assets The amount of assets that user wishes to receive.
   /// @param _receiver The receiver of the assets.
@@ -171,7 +171,7 @@ contract ybUSDB is ERC20 {
     return convertToAssets(_shares);
   }
 
-  /// @notice Preview the amount of WETH/ETH needed to mint by specifying the amount of ybUSDB.
+  /// @notice Preview the amount of USDB needed to mint by specifying the amount of ybUSDB.
   /// @param _shares The amount of ybUSDB to mint.
   function previewMint(uint256 _shares) public view returns (uint256 _assets) {
     // SLOAD
@@ -179,8 +179,8 @@ contract ybUSDB is ERC20 {
     return _totalSupply == 0 ? _shares : _shares.mulDivUp(totalAssets(), _totalSupply);
   }
 
-  /// @notice Preview the amount of ybUSDB needed by specifying the amount of WETH/ETH wishes to receive.
-  /// @param _assets The amount of WETH/ETH wishes to receive.
+  /// @notice Preview the amount of ybUSDB needed by specifying the amount of USDB wishes to receive.
+  /// @param _assets The amount of USDB wishes to receive.
   function previewWithdraw(uint256 _assets) public view returns (uint256 _shares) {
     // SLOAD
     uint256 _totalSupply = totalSupply;
@@ -213,7 +213,7 @@ contract ybUSDB is ERC20 {
     return type(uint256).max;
   }
 
-  /// @notice Return the amount of ETH/WETH that can be withdrawn from ybUSDB.
+  /// @notice Return the amount of USDB that can be withdrawn from ybUSDB.
   /// @param _owner The owner of the ybUSDB.
   function maxWithdraw(address _owner) public view returns (uint256) {
     return convertToAssets(balanceOf[_owner]);
