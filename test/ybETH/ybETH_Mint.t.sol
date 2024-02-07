@@ -21,13 +21,13 @@ contract ybETH_MintTest is ybETH_BaseTest {
     // Assert
     assertEq(ybeth.balanceOf(address(this)), 1_000 ether);
     assertEq(ybeth.totalAssets(), 1_000 ether);
-    assertEq(address(ybeth).balance, 1_000 ether);
+    assertEq(weth.balanceOf(address(ybeth)), 1_000 ether);
     assertEq(ybeth.totalSupply(), 1_000 ether);
 
     // Assuming WETH is rebased, totalAssets should be updated
     // when the next deposit is called, hence the next user should
     // receive less shares.
-    mockBlast.setNextYield(40 ether);
+    weth.setNextYield(40 ether);
 
     // Next user deposit to ybETH
     vm.startPrank(alice);
@@ -42,7 +42,7 @@ contract ybETH_MintTest is ybETH_BaseTest {
     // Assert
     assertEq(ybeth.balanceOf(alice), _shares);
     assertEq(ybeth.totalAssets(), 2_040 ether);
-    assertEq(address(ybeth).balance, 2_040 ether);
+    assertEq(weth.balanceOf(address(ybeth)), 2_040 ether);
     assertEq(ybeth.totalSupply(), 1_000 ether + _shares);
   }
 }
