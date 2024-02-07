@@ -8,24 +8,24 @@ import {ERC20} from "lib/solmate/src/tokens/ERC20.sol";
 import {SafeTransferLib} from "lib/solmate/src/utils/SafeTransferLib.sol";
 
 // Tests
-import {MockBlast} from "test/mocks/MockBlast.sol";
-import {MockWETH9} from "test/mocks/MockWETH9.sol";
+import {MockErc20Rebasing} from "test/mocks/MockErc20Rebasing.sol";
 
 // Contracts
-import {ybETH} from "src/ybETH.sol";
-import {IWETH} from "src/interfaces/IWETH.sol";
+import {ybUSDB} from "src/ybUSDB.sol";
+import {IERC20Rebasing} from "src/interfaces/IERC20Rebasing.sol";
 
-abstract contract ybETH_BaseTest is Test {
+abstract contract ybUSDB_BaseTest is Test {
   address public alice;
+  address public bob;
 
-  MockBlast public mockBlast;
-  MockWETH9 public weth;
-  ybETH public ybeth;
+  MockErc20Rebasing public mockUsdb;
+  ybUSDB public ybusdb;
 
   function setUp() public virtual {
-    mockBlast = new MockBlast();
-    weth = new MockWETH9();
-    ybeth = new ybETH(IWETH(address(weth)), mockBlast);
     alice = makeAddr("alice");
+    bob = makeAddr("bob");
+
+    mockUsdb = new MockErc20Rebasing();
+    ybusdb = new ybUSDB(mockUsdb);
   }
 }
