@@ -209,7 +209,7 @@ contract ybUSDB is ERC20 {
   }
 
   /// @notice Return the amount of ybUSDB that can be minted.
-  function maxMint(address) public pure returns (uint256) {
+  function maxMint(address) external pure returns (uint256) {
     return type(uint256).max;
   }
 
