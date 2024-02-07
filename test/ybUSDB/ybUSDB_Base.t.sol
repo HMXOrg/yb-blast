@@ -16,13 +16,16 @@ import {IERC20Rebasing} from "src/interfaces/IERC20Rebasing.sol";
 
 abstract contract ybUSDB_BaseTest is Test {
   address public alice;
+  address public bob;
 
   MockErc20Rebasing public mockUsdb;
   ybUSDB public ybusdb;
 
   function setUp() public virtual {
+    alice = makeAddr("alice");
+    bob = makeAddr("bob");
+
     mockUsdb = new MockErc20Rebasing();
     ybusdb = new ybUSDB(mockUsdb);
-    alice = makeAddr("alice");
   }
 }
