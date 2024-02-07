@@ -13,7 +13,7 @@ contract ybETH_GetterTest is ybETH_BaseTest {
   }
 
   function testCorrectness_Asset() external {
-    assertEq(ybeth.asset(), 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE);
+    assertEq(address(ybeth.asset()), address(weth));
   }
 
   function testCorrectness_MaxDeposit() external {
@@ -39,7 +39,7 @@ contract ybETH_GetterTest is ybETH_BaseTest {
     // Assuming WETH is rebased, totalAssets should be updated
     // when the next deposit is called, hence the next user should
     // receive less shares.
-    mockBlast.setNextYield(40 ether);
+    weth.setNextYield(40 ether);
 
     // Next user deposit to ybETH
     vm.startPrank(alice);
@@ -68,7 +68,7 @@ contract ybETH_GetterTest is ybETH_BaseTest {
     // Assuming WETH is rebased, totalAssets should be updated
     // when the next deposit is called, hence the next user should
     // receive less shares.
-    mockBlast.setNextYield(40 ether);
+    weth.setNextYield(40 ether);
 
     assertEq(ybeth.maxWithdraw(address(this)), 1_040 ether);
   }
@@ -86,7 +86,7 @@ contract ybETH_GetterTest is ybETH_BaseTest {
     // Assuming WETH is rebased, totalAssets should be updated
     // when the next deposit is called, hence the next user should
     // receive less shares.
-    mockBlast.setNextYield(40 ether);
+    weth.setNextYield(40 ether);
 
     // Next user deposit to ybETH
     vm.startPrank(alice);
@@ -114,7 +114,7 @@ contract ybETH_GetterTest is ybETH_BaseTest {
     // Assuming WETH is rebased, totalAssets should be updated
     // when the next deposit is called, hence the next user should
     // receive less shares.
-    mockBlast.setNextYield(40 ether);
+    weth.setNextYield(40 ether);
 
     uint256 _expectedShares = uint256(1_000 ether) * uint256(1_000 ether) / uint256(1_040 ether);
     assertEq(ybeth.previewDeposit(1_000 ether), _expectedShares);
@@ -131,7 +131,7 @@ contract ybETH_GetterTest is ybETH_BaseTest {
     // Assuming WETH is rebased, totalAssets should be updated
     // when the next deposit is called, hence the next user should
     // receive less shares.
-    mockBlast.setNextYield(40 ether);
+    weth.setNextYield(40 ether);
 
     assertEq(ybeth.previewRedeem(1_000 ether), 1_040 ether);
   }
@@ -147,7 +147,7 @@ contract ybETH_GetterTest is ybETH_BaseTest {
     // Assuming WETH is rebased, totalAssets should be updated
     // when the next deposit is called, hence the next user should
     // receive less shares.
-    mockBlast.setNextYield(40 ether);
+    weth.setNextYield(40 ether);
 
     uint256 _expectedShares = uint256(1_000 ether) * uint256(1_000 ether) / uint256(1_040 ether);
     assertEq(ybeth.previewMint(_expectedShares), 1_000 ether);

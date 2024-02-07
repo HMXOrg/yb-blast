@@ -21,12 +21,12 @@ contract ybETH_DepositETHTest is ybETH_BaseTest {
     // Assert
     assertEq(ybeth.balanceOf(address(this)), 1_000 ether);
     assertEq(ybeth.totalAssets(), 1_000 ether);
-    assertEq(address(ybeth).balance, 1_000 ether);
+    assertEq(weth.balanceOf(address(ybeth)), 1_000 ether);
     assertEq(ybeth.totalSupply(), 1_000 ether);
 
     // Assuming we have a large pending yields
     // which then inflated the share value.
-    mockBlast.setNextYield(120_000_000 ether);
+    weth.setNextYield(120_000_000 ether);
     ybeth.claimAllYield();
 
     // Now share value of ybETH is extremely expensive.
@@ -49,13 +49,13 @@ contract ybETH_DepositETHTest is ybETH_BaseTest {
     // Assert
     assertEq(ybeth.balanceOf(address(this)), 1_000 ether);
     assertEq(ybeth.totalAssets(), 1_000 ether);
-    assertEq(address(ybeth).balance, 1_000 ether);
+    assertEq(weth.balanceOf(address(ybeth)), 1_000 ether);
     assertEq(ybeth.totalSupply(), 1_000 ether);
 
     // Assuming WETH is rebased, totalAssets should be updated
     // when the next deposit is called, hence the next user should
     // receive less shares.
-    mockBlast.setNextYield(40 ether);
+    weth.setNextYield(40 ether);
 
     // Next user deposit to ybETH
     vm.startPrank(alice);
@@ -68,7 +68,7 @@ contract ybETH_DepositETHTest is ybETH_BaseTest {
     uint256 _expectedAliceShares = uint256(1_000 ether) * uint256(1_000 ether) / uint256(1_040 ether);
     assertEq(ybeth.balanceOf(alice), _expectedAliceShares);
     assertEq(ybeth.totalAssets(), 2_040 ether);
-    assertEq(address(ybeth).balance, 2_040 ether);
+    assertEq(weth.balanceOf(address(ybeth)), 2_040 ether);
     assertEq(ybeth.totalSupply(), 1_000 ether + _expectedAliceShares);
   }
 }
