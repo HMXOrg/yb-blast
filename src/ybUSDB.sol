@@ -221,7 +221,7 @@ contract ybUSDB is ERC20 {
 
   /// @notice Return the amount of ybUSDB that can be redeemed.
   /// @param _owner The owner of the ybUSDB.
-  function maxRedeem(address _owner) public view returns (uint256) {
+  function maxRedeem(address _owner) external view returns (uint256) {
     return balanceOf[_owner];
   }
 }
