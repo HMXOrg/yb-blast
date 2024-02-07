@@ -215,7 +215,7 @@ contract ybUSDB is ERC20 {
 
   /// @notice Return the amount of USDB that can be withdrawn from ybUSDB.
   /// @param _owner The owner of the ybUSDB.
-  function maxWithdraw(address _owner) public view returns (uint256) {
+  function maxWithdraw(address _owner) external view returns (uint256) {
     return convertToAssets(balanceOf[_owner]);
   }
 
