@@ -204,7 +204,7 @@ contract ybUSDB is ERC20 {
   }
 
   /// @notice Return the amount of assets that can be deposited to ybUSDB.
-  function maxDeposit(address) public pure returns (uint256) {
+  function maxDeposit(address) external pure returns (uint256) {
     return type(uint256).max;
   }
 
