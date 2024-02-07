@@ -16,12 +16,14 @@ import {IWETH} from "src/interfaces/IWETH.sol";
 
 abstract contract ybETH_BaseTest is Test {
   address public alice;
+  address public bob;
 
   MockErc20Rebasing public weth;
   ybETH public ybeth;
 
   function setUp() public virtual {
     alice = makeAddr("alice");
+    bob = makeAddr("bob");
 
     weth = new MockErc20Rebasing();
     ybeth = new ybETH(weth);
