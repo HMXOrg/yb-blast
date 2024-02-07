@@ -204,24 +204,24 @@ contract ybUSDB is ERC20 {
   }
 
   /// @notice Return the amount of assets that can be deposited to ybUSDB.
-  function maxDeposit(address) public pure returns (uint256) {
+  function maxDeposit(address) external pure returns (uint256) {
     return type(uint256).max;
   }
 
   /// @notice Return the amount of ybUSDB that can be minted.
-  function maxMint(address) public pure returns (uint256) {
+  function maxMint(address) external pure returns (uint256) {
     return type(uint256).max;
   }
 
   /// @notice Return the amount of USDB that can be withdrawn from ybUSDB.
   /// @param _owner The owner of the ybUSDB.
-  function maxWithdraw(address _owner) public view returns (uint256) {
+  function maxWithdraw(address _owner) external view returns (uint256) {
     return convertToAssets(balanceOf[_owner]);
   }
 
   /// @notice Return the amount of ybUSDB that can be redeemed.
   /// @param _owner The owner of the ybUSDB.
-  function maxRedeem(address _owner) public view returns (uint256) {
+  function maxRedeem(address _owner) external view returns (uint256) {
     return balanceOf[_owner];
   }
 }
