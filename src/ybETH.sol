@@ -221,7 +221,7 @@ contract ybETH is ERC20 {
   /// @param _assets The amount of assets that user wishes to receive.
   /// @param _receiver The receiver of the assets.
   /// @param _owner The owner of the ybETH.
-  function withdrawETH(uint256 _assets, address _receiver, address _owner) public returns (uint256 _shares) {
+  function withdrawETH(uint256 _assets, address _receiver, address _owner) external returns (uint256 _shares) {
     return _withdraw(true, _assets, _receiver, _owner);
   }
 
@@ -230,7 +230,7 @@ contract ybETH is ERC20 {
   /// @param _assets The amount of assets that user wishes to receive.
   /// @param _receiver The receiver of the assets.
   /// @param _owner The owner of the ybETH.
-  function withdraw(uint256 _assets, address _receiver, address _owner) public returns (uint256 _shares) {
+  function withdraw(uint256 _assets, address _receiver, address _owner) external returns (uint256 _shares) {
     return _withdraw(false, _assets, _receiver, _owner);
   }
 
@@ -285,24 +285,24 @@ contract ybETH is ERC20 {
   }
 
   /// @notice Return the amount of assets that can be deposited to ybETH.
-  function maxDeposit(address) public pure returns (uint256) {
+  function maxDeposit(address) external pure returns (uint256) {
     return type(uint256).max;
   }
 
   /// @notice Return the amount of ybETH that can be minted.
-  function maxMint(address) public pure returns (uint256) {
+  function maxMint(address) external pure returns (uint256) {
     return type(uint256).max;
   }
 
   /// @notice Return the amount of ETH/WETH that can be withdrawn from ybETH.
   /// @param _owner The owner of the ybETH.
-  function maxWithdraw(address _owner) public view returns (uint256) {
+  function maxWithdraw(address _owner) external view returns (uint256) {
     return convertToAssets(balanceOf[_owner]);
   }
 
   /// @notice Return the amount of ybETH that can be redeemed.
   /// @param _owner The owner of the ybETH.
-  function maxRedeem(address _owner) public view returns (uint256) {
+  function maxRedeem(address _owner) external view returns (uint256) {
     return balanceOf[_owner];
   }
 
