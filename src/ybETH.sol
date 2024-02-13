@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
 
+// Contracts
+import {YieldInbox} from "src/YieldInbox.sol";
+
 // Libraries
 import {ERC20} from "lib/solmate/src/tokens/ERC20.sol";
 import {SafeTransferLib} from "lib/solmate/src/utils/SafeTransferLib.sol";
@@ -22,6 +25,7 @@ contract ybETH is ERC20 {
 
   // Configs
   IERC20Rebasing public immutable asset;
+  YieldInbox public immutable yieldInbox;
 
   // States
   uint256 internal _totalAssets;
@@ -35,6 +39,7 @@ contract ybETH is ERC20 {
   constructor(IERC20Rebasing _weth) ERC20("ybETH", "ybETH", 18) {
     // Effect
     asset = _weth;
+    yieldInbox = new YieldInbox();
 
     // Interaction
     asset.configure(YieldMode.CLAIMABLE);
@@ -42,7 +47,9 @@ contract ybETH is ERC20 {
 
   /// @notice Claim all pending yield and update _totalAssets.
   function claimAllYield() public {
-    _totalAssets += asset.claim(address(this), asset.getClaimableAmount(address(this)));
+    uint256 _claimed = asset.claim(address(yieldInbox), asset.getClaimableAmount(address(this)));
+    yieldInbox.crawlBack(asset, address(this), _claimed);
+    _totalAssets += _claimed;
   }
 
   /// @notice Deposit ETH to mint ybETH.
