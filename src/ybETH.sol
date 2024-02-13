@@ -47,9 +47,12 @@ contract ybETH is ERC20 {
 
   /// @notice Claim all pending yield and update _totalAssets.
   function claimAllYield() public {
-    uint256 _claimed = asset.claim(address(yieldInbox), asset.getClaimableAmount(address(this)));
-    yieldInbox.crawlBack(asset, address(this), _claimed);
-    _totalAssets += _claimed;
+    uint256 _claimable = asset.getClaimableAmount(address(this));
+    if (_claimable == 0) return;
+
+    _claimable = asset.claim(address(yieldInbox), _claimable);
+    yieldInbox.crawlBack(asset, address(this), _claimable);
+    _totalAssets += _claimable;
   }
 
   /// @notice Deposit ETH to mint ybETH.
