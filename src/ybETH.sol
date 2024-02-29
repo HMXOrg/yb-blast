@@ -11,6 +11,7 @@ import {FixedPointMathLib} from "lib/solmate/src/utils/FixedPointMathLib.sol";
 
 // Interfaces
 import {IERC20Rebasing, YieldMode} from "src/interfaces/IERC20Rebasing.sol";
+import {IBlast} from "src/interfaces/IBlast.sol";
 import {IWETH} from "src/interfaces/IWETH.sol";
 
 contract ybETH is ERC20 {
@@ -36,13 +37,17 @@ contract ybETH is ERC20 {
     address indexed caller, address indexed receiver, address indexed owner, uint256 assets, uint256 shares
   );
 
-  constructor(IERC20Rebasing _weth) ERC20("ybETH", "ybETH", 18) {
+  constructor(IERC20Rebasing _weth, IBlast _blast) ERC20("ybETH", "ybETH", 18) {
     // Effect
     asset = _weth;
     yieldInbox = new YieldInbox();
 
+    deposit(0.1 ether, address(0));
+
     // Interaction
     asset.configure(YieldMode.CLAIMABLE);
+    _blast.configureClaimableGas();
+    _blast.configureGovernor(msg.sender);
   }
 
   /// @notice Claim all pending yield and update _totalAssets.
@@ -82,7 +87,7 @@ contract ybETH is ERC20 {
   /// @dev This function follows ERC-4626 standard.
   /// @param _assets The amount of WETH to deposit.
   /// @param _receiver The receiver of ybETH.
-  function deposit(uint256 _assets, address _receiver) external returns (uint256 _shares) {
+  function deposit(uint256 _assets, address _receiver) public returns (uint256 _shares) {
     // Claim all pending yield
     claimAllYield();
 

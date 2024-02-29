@@ -16,6 +16,7 @@ interface IBlast {
   function configureClaimableYield() external;
   function claimAllYield(address contractAddress, address receipientOfYield) external returns (uint256);
   function readClaimableYield(address contractAddress) external view returns (uint256);
+  function configureGovernor(address governorAddress) external;
   function configureClaimableGas() external;
   function claimAllGas(address contractAddress, address receipientOfGas) external returns (uint256);
   function readGasParams(address contractAddress)

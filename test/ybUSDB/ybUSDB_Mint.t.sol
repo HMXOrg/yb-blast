@@ -19,9 +19,9 @@ contract ybUSDB_MintTest is ybUSDB_BaseTest {
     ybusdb.mint(1_000 ether, address(this));
     // Assert
     assertEq(ybusdb.balanceOf(address(this)), 1_000 ether);
-    assertEq(ybusdb.totalAssets(), 1_000 ether);
-    assertEq(mockUsdb.balanceOf(address(ybusdb)), 1_000 ether);
-    assertEq(ybusdb.totalSupply(), 1_000 ether);
+    assertEq(ybusdb.totalAssets(), 1_000.1 ether);
+    assertEq(mockUsdb.balanceOf(address(ybusdb)), 1_000.1 ether);
+    assertEq(ybusdb.totalSupply(), 1_000.1 ether);
 
     // Assuming USDB is rebased, totalAssets should be updated
     // when the next deposit is called, hence the next user should
@@ -34,13 +34,13 @@ contract ybUSDB_MintTest is ybUSDB_BaseTest {
     mockUsdb.mint(alice, 1_000 ether);
     // Deposit to ybUSDB
     mockUsdb.approve(address(ybusdb), 1_000 ether);
-    uint256 _shares = uint256(1_000 ether) * uint256(1_000 ether) / uint256(1_040 ether);
+    uint256 _shares = uint256(1_000 ether) * uint256(1_000.1 ether) / uint256(1_040.1 ether);
     ybusdb.mint(_shares, alice);
     vm.stopPrank();
     // Assert
     assertEq(ybusdb.balanceOf(alice), _shares);
-    assertEq(ybusdb.totalAssets(), 2_040 ether);
-    assertEq(mockUsdb.balanceOf(address(ybusdb)), 2_040 ether);
-    assertEq(ybusdb.totalSupply(), 1_000 ether + _shares);
+    assertEq(ybusdb.totalAssets(), 2_040.1 ether);
+    assertEq(mockUsdb.balanceOf(address(ybusdb)), 2_040.1 ether);
+    assertEq(ybusdb.totalSupply(), 1_000.1 ether + _shares);
   }
 }

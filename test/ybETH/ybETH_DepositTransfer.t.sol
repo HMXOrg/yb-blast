@@ -20,9 +20,9 @@ contract ybETH_DepositTransferTest is ybETH_BaseTest {
     address(ybeth).safeTransferETH(1_000 ether);
     // Assert
     assertEq(ybeth.balanceOf(address(this)), 1_000 ether);
-    assertEq(ybeth.totalAssets(), 1_000 ether);
-    assertEq(weth.balanceOf(address(ybeth)), 1_000 ether);
-    assertEq(ybeth.totalSupply(), 1_000 ether);
+    assertEq(ybeth.totalAssets(), 1_000.1 ether);
+    assertEq(weth.balanceOf(address(ybeth)), 1_000.1 ether);
+    assertEq(ybeth.totalSupply(), 1_000.1 ether);
 
     // Assuming we have a large pending yields
     // which then inflated the share value.
@@ -48,9 +48,9 @@ contract ybETH_DepositTransferTest is ybETH_BaseTest {
     address(ybeth).safeTransferETH(1_000 ether);
     // Assert
     assertEq(ybeth.balanceOf(address(this)), 1_000 ether);
-    assertEq(ybeth.totalAssets(), 1_000 ether);
-    assertEq(weth.balanceOf(address(ybeth)), 1_000 ether);
-    assertEq(ybeth.totalSupply(), 1_000 ether);
+    assertEq(ybeth.totalAssets(), 1_000.1 ether);
+    assertEq(weth.balanceOf(address(ybeth)), 1_000.1 ether);
+    assertEq(ybeth.totalSupply(), 1_000.1 ether);
 
     // Assuming WETH is rebased, totalAssets should be updated
     // when the next deposit is called, hence the next user should
@@ -65,10 +65,10 @@ contract ybETH_DepositTransferTest is ybETH_BaseTest {
     address(ybeth).safeTransferETH(1_000 ether);
     vm.stopPrank();
     // Assert
-    uint256 _expectedAliceShares = uint256(1_000 ether) * uint256(1_000 ether) / uint256(1_040 ether);
+    uint256 _expectedAliceShares = uint256(1_000 ether) * uint256(1_000.1 ether) / uint256(1_040.1 ether);
     assertEq(ybeth.balanceOf(alice), _expectedAliceShares);
-    assertEq(ybeth.totalAssets(), 2_040 ether);
-    assertEq(weth.balanceOf(address(ybeth)), 2_040 ether);
-    assertEq(ybeth.totalSupply(), 1_000 ether + _expectedAliceShares);
+    assertEq(ybeth.totalAssets(), 2_040.1 ether);
+    assertEq(weth.balanceOf(address(ybeth)), 2_040.1 ether);
+    assertEq(ybeth.totalSupply(), 1_000.1 ether + _expectedAliceShares);
   }
 }

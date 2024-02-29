@@ -10,6 +10,7 @@ import {SafeTransferLib} from "lib/solmate/src/utils/SafeTransferLib.sol";
 import {FixedPointMathLib} from "lib/solmate/src/utils/FixedPointMathLib.sol";
 
 // Interfaces
+import {IBlast} from "src/interfaces/IBlast.sol";
 import {IERC20Rebasing, YieldMode} from "src/interfaces/IERC20Rebasing.sol";
 
 contract ybUSDB is ERC20 {
@@ -34,12 +35,17 @@ contract ybUSDB is ERC20 {
     address indexed caller, address indexed receiver, address indexed owner, uint256 assets, uint256 shares
   );
 
-  constructor(IERC20Rebasing _usdb) ERC20("ybUSDB", "ybUSDB", 18) {
+  constructor(IERC20Rebasing _usdb, IBlast _blast) ERC20("ybUSDB", "ybUSDB", 18) {
     // Effect
     asset = _usdb;
     yieldInbox = new YieldInbox();
 
+    deposit(0.1 ether, address(0));
+
+    // Interaction
     asset.configure(YieldMode.CLAIMABLE);
+    _blast.configureClaimableGas();
+    _blast.configureGovernor(msg.sender);
   }
 
   /// @notice Claim all pending yield and update _totalAssets.
@@ -56,7 +62,7 @@ contract ybUSDB is ERC20 {
   /// @dev This function follows ERC-4626 standard.
   /// @param _assets The amount of USDB to deposit.
   /// @param _receiver The receiver of ybUSDB.
-  function deposit(uint256 _assets, address _receiver) external returns (uint256 _shares) {
+  function deposit(uint256 _assets, address _receiver) public returns (uint256 _shares) {
     // Claim all pending yield
     claimAllYield();
 

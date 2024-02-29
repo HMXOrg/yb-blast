@@ -41,7 +41,7 @@ contract ybUSDB_GetterTest is ybUSDB_BaseTest {
     mockUsdb.setNextYield(40 ether);
 
     // Without any interaction to the contract, it should returns correct value.
-    assertEq(ybusdb.maxWithdraw(address(this)), 1_040 ether);
+    assertEq(ybusdb.maxWithdraw(address(this)), 1039996000399960003999);
 
     // Next user deposit to ybUSDB
     vm.startPrank(alice);
@@ -52,7 +52,7 @@ contract ybUSDB_GetterTest is ybUSDB_BaseTest {
     ybusdb.deposit(1_000 ether, alice);
     vm.stopPrank();
 
-    assertEq(ybusdb.maxWithdraw(address(this)), 1_040 ether);
+    assertEq(ybusdb.maxWithdraw(address(this)), 1039996000399960003999);
     assertApproxEqAbs(ybusdb.maxWithdraw(alice), 1_000 ether, 1);
   }
 
@@ -70,7 +70,7 @@ contract ybUSDB_GetterTest is ybUSDB_BaseTest {
     // receive less shares.
     mockUsdb.setNextYield(40 ether);
 
-    assertEq(ybusdb.maxWithdraw(address(this)), 1_040 ether);
+    assertEq(ybusdb.maxWithdraw(address(this)), 1039996000399960003999);
   }
 
   function testCorrectness_MaxRedeem() external {
@@ -96,7 +96,7 @@ contract ybUSDB_GetterTest is ybUSDB_BaseTest {
     ybusdb.deposit(1_000 ether, alice);
     vm.stopPrank();
 
-    uint256 _expectedAliceShares = uint256(1_000 ether) * uint256(1_000 ether) / uint256(1_040 ether);
+    uint256 _expectedAliceShares = uint256(1_000 ether) * uint256(1_000.1 ether) / uint256(1_040.1 ether);
     assertEq(ybusdb.maxRedeem(address(this)), 1_000 ether);
     assertEq(ybusdb.maxRedeem(alice), _expectedAliceShares);
   }
@@ -113,7 +113,7 @@ contract ybUSDB_GetterTest is ybUSDB_BaseTest {
     // receive less shares.
     mockUsdb.setNextYield(40 ether);
 
-    uint256 _expectedShares = uint256(1_000 ether) * uint256(1_000 ether) / uint256(1_040 ether);
+    uint256 _expectedShares = uint256(1_000 ether) * uint256(1_000.1 ether) / uint256(1_040.1 ether);
     assertEq(ybusdb.previewDeposit(1_000 ether), _expectedShares);
   }
 
@@ -129,7 +129,7 @@ contract ybUSDB_GetterTest is ybUSDB_BaseTest {
     // receive less shares.
     mockUsdb.setNextYield(40 ether);
 
-    assertEq(ybusdb.previewRedeem(1_000 ether), 1_040 ether);
+    assertEq(ybusdb.previewRedeem(1_000 ether), 1039996000399960003999);
   }
 
   function testCorrectness_PreviewMint_WhenUnclaimedYield() external {
@@ -144,7 +144,7 @@ contract ybUSDB_GetterTest is ybUSDB_BaseTest {
     // receive less shares.
     mockUsdb.setNextYield(40 ether);
 
-    uint256 _expectedShares = uint256(1_000 ether) * uint256(1_000 ether) / uint256(1_040 ether);
+    uint256 _expectedShares = uint256(1_000 ether) * uint256(1_000.1 ether) / uint256(1_040.1 ether);
     assertEq(ybusdb.previewMint(_expectedShares), 1_000 ether);
   }
 }

@@ -22,9 +22,9 @@ contract ybETH_RedeemETHTest is ybETH_BaseTest {
     ybeth.deposit(1_000 ether, address(this));
     // Assert
     assertEq(ybeth.balanceOf(address(this)), 1_000 ether);
-    assertEq(ybeth.totalAssets(), 1_000 ether);
-    assertEq(weth.balanceOf(address(ybeth)), 1_000 ether);
-    assertEq(ybeth.totalSupply(), 1_000 ether);
+    assertEq(ybeth.totalAssets(), 1_000.1 ether);
+    assertEq(weth.balanceOf(address(ybeth)), 1_000.1 ether);
+    assertEq(ybeth.totalSupply(), 1_000.1 ether);
 
     // Redeem zero
     vm.expectRevert(abi.encodeWithSignature("ZeroAssets()"));
@@ -40,9 +40,9 @@ contract ybETH_RedeemETHTest is ybETH_BaseTest {
     ybeth.deposit(1_000 ether, address(this));
     // Assert
     assertEq(ybeth.balanceOf(address(this)), 1_000 ether);
-    assertEq(ybeth.totalAssets(), 1_000 ether);
-    assertEq(weth.balanceOf(address(ybeth)), 1_000 ether);
-    assertEq(ybeth.totalSupply(), 1_000 ether);
+    assertEq(ybeth.totalAssets(), 1_000.1 ether);
+    assertEq(weth.balanceOf(address(ybeth)), 1_000.1 ether);
+    assertEq(ybeth.totalSupply(), 1_000.1 ether);
 
     // Assuming WETH is rebased, totalAssets should be updated
     // when the next redeem is called, the 1st user should received correct amount of WETH.
@@ -54,36 +54,36 @@ contract ybETH_RedeemETHTest is ybETH_BaseTest {
     address(weth).safeTransferETH(1_000 ether);
     weth.approve(address(ybeth), 1_000 ether);
     ybeth.deposit(1_000 ether, alice);
-    uint256 _expectedAliceShares = uint256(1_000 ether) * uint256(1_000 ether) / uint256(1_040 ether);
+    uint256 _expectedAliceShares = uint256(1_000 ether) * uint256(1_000.1 ether) / uint256(1_040.1 ether);
     vm.stopPrank();
 
     // Then 1st user redeem half of his ybETH
-    ybeth.redeemETH(500 ether, address(this), address(this));
+    uint256 _receivedETH = ybeth.redeemETH(500 ether, address(this), address(this));
     // Assert
     assertEq(ybeth.balanceOf(address(this)), 500 ether);
-    assertEq(ybeth.totalAssets(), 2_040 ether - 520 ether);
-    assertEq(weth.balanceOf(address(ybeth)), 2_040 ether - 520 ether);
-    assertEq(ybeth.totalSupply(), 1_000 ether + _expectedAliceShares - 500 ether);
-    assertEq(address(this).balance, 520 ether);
+    assertEq(ybeth.totalAssets(), 2_040.1 ether - _receivedETH);
+    assertEq(weth.balanceOf(address(ybeth)), 2_040.1 ether - _receivedETH);
+    assertEq(ybeth.totalSupply(), 1_000.1 ether + _expectedAliceShares - 500 ether);
+    assertEq(address(this).balance, _receivedETH);
 
     // The 1st user redeem the rest.
-    ybeth.redeemETH(500 ether, address(this), address(this));
+    _receivedETH = ybeth.redeemETH(500 ether, address(this), address(this));
     // Assert
     assertEq(ybeth.balanceOf(address(this)), 0);
-    assertEq(ybeth.totalAssets(), 1_520 ether - 520 ether);
-    assertEq(weth.balanceOf(address(ybeth)), 1_520 ether - 520 ether);
-    assertEq(ybeth.totalSupply(), _expectedAliceShares);
-    assertEq(address(this).balance, 1_040 ether);
+    assertApproxEqAbs(ybeth.totalAssets(), 2_040.1 ether - _receivedETH * 2, 1);
+    assertApproxEqAbs(weth.balanceOf(address(ybeth)), 2_040.1 ether - _receivedETH * 2, 1);
+    assertEq(ybeth.totalSupply(), _expectedAliceShares + 0.1 ether);
+    assertApproxEqAbs(address(this).balance, _receivedETH * 2, 1);
 
     // Alice redeem all of her ybETH
     vm.prank(alice);
-    ybeth.redeemETH(_expectedAliceShares, alice, alice);
+    _receivedETH = ybeth.redeemETH(_expectedAliceShares, alice, alice);
     // Assert
     assertEq(ybeth.balanceOf(alice), 0);
-    assertEq(ybeth.totalAssets(), 0);
-    assertEq(weth.balanceOf(address(ybeth)), 0);
-    assertEq(ybeth.totalSupply(), 0);
-    assertEq(alice.balance, 1_000 ether);
+    assertEq(ybeth.totalAssets(), 103999600039996001);
+    assertEq(weth.balanceOf(address(ybeth)), 103999600039996001);
+    assertEq(ybeth.totalSupply(), 0.1 ether);
+    assertEq(alice.balance, _receivedETH);
   }
 
   receive() external payable {}
