@@ -1,6 +1,6 @@
 import { config as dotEnvConfig } from "dotenv";
 import { HardhatUserConfig } from "hardhat/config";
-import fs from "fs";
+
 dotEnvConfig();
 
 import * as tdly from "@tenderly/hardhat-tenderly";
@@ -19,13 +19,12 @@ const config: HardhatUserConfig = {
   networks: {
     blast_mainnet: {
       url: process.env.BLAST_RPC_URL || "",
-      accounts:
-        [process.env.MAINNET_PRIVATE_KEY!],
+      accounts: [process.env.MAINNET_PRIVATE_KEY!],
     },
     blast_sepolia: {
       url: process.env.BLAST_SEPOLIA_RPC_URL || "",
       chainId: 168587773,
-      accounts: [process.env.MAINNET_PRIVATE_KEY!]
+      accounts: [process.env.MAINNET_PRIVATE_KEY!],
     },
   },
   solidity: {

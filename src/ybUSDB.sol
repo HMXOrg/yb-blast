@@ -40,12 +40,12 @@ contract ybUSDB is ERC20 {
     asset = _usdb;
     yieldInbox = new YieldInbox();
 
-    deposit(0.1 ether, address(0));
-
-    // Interaction
+    // Config before deposit dead shares
     asset.configure(YieldMode.CLAIMABLE);
     _blast.configureClaimableGas();
     _blast.configureGovernor(msg.sender);
+
+    deposit(0.1 ether, address(0));
   }
 
   /// @notice Claim all pending yield and update _totalAssets.
