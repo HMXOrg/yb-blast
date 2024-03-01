@@ -47,9 +47,18 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
-      arbitrumOne: process.env.ETHERSCAN_API_KEY!,
-      arbitrumGoerli: process.env.ETHERSCAN_API_KEY!,
+      blast_mainnet: process.env.BLASTSCAN_API_KEY!,
     },
+    customChains: [
+      {
+        network: "blast_mainnet",
+        chainId: 81457,
+        urls: {
+          apiURL: "https://api.blastscan.io/api",
+          browserURL: "https://blastscan.io/",
+        },
+      },
+    ],
   },
 };
 
