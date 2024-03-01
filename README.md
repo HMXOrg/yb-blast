@@ -8,9 +8,10 @@ ybBLAST consists of:
 
 ## ybBLAST Contract Addresses
 
-| Chain         | Address                                                                                                                       |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| Blast Sepolia | [0xA0e4944b2f953c2E76872E84F9CC89AE94bC70e8](https://testnet.blastscan.io/address/0xA0e4944b2f953c2E76872E84F9CC89AE94bC70e8) |
+| Token  | Address                                                                                                               |
+| ------ | --------------------------------------------------------------------------------------------------------------------- |
+| ybETH  | [0x2EAd9c6C7cAB1DD3442714A8A8533078C402135A](https://blastscan.io/address/0x2EAd9c6C7cAB1DD3442714A8A8533078C402135A) |
+| ybUSDB | [0x620aa22aA45F59Af91CaFBAd0ab58181FcDBfB08](https://blastscan.io/address/0x620aa22aA45F59Af91CaFBAd0ab58181FcDBfB08) |
 
 ## Usage
 
