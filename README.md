@@ -5,6 +5,7 @@ ybBLAST is a smart contract built to wrap auto-rebasing tokens on Blast, functio
 ybBLAST consists of:
 
 - **ybETH**: An ERC-4626 compatible token that wraps both WETH and ETH on Blast.
+- **ybUSDB**: An ERC-4626 compatible token that wraps USDB on Blast.
 
 ## ybBLAST Contract Addresses
 
