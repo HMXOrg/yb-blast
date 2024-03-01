@@ -11,6 +11,7 @@ import {FixedPointMathLib} from "lib/solmate/src/utils/FixedPointMathLib.sol";
 
 // Interfaces
 import {IBlast} from "src/interfaces/IBlast.sol";
+import {IBlastPoints} from "src/interfaces/IBlastPoints.sol";
 import {IERC20Rebasing, YieldMode} from "src/interfaces/IERC20Rebasing.sol";
 
 contract ybUSDB is ERC20 {
@@ -23,6 +24,8 @@ contract ybUSDB is ERC20 {
   error ZeroShares();
 
   // Configs
+  address public dev;
+  IBlastPoints public immutable blastPoints;
   IERC20Rebasing public immutable asset;
   YieldInbox public immutable yieldInbox;
 
@@ -35,8 +38,12 @@ contract ybUSDB is ERC20 {
     address indexed caller, address indexed receiver, address indexed owner, uint256 assets, uint256 shares
   );
 
-  constructor(IERC20Rebasing _usdb, IBlast _blast) ERC20("ybUSDB", "ybUSDB", 18) {
+  constructor(IERC20Rebasing _usdb, IBlast _blast, IBlastPoints _blastPoints, address _blastPointsOperator)
+    ERC20("ybUSDB", "ybUSDB", 18)
+  {
     // Effect
+    dev = msg.sender;
+    blastPoints = _blastPoints;
     asset = _usdb;
     yieldInbox = new YieldInbox();
 
@@ -44,6 +51,7 @@ contract ybUSDB is ERC20 {
     asset.configure(YieldMode.CLAIMABLE);
     _blast.configureClaimableGas();
     _blast.configureGovernor(msg.sender);
+    _blastPoints.configurePointsOperator(_blastPointsOperator);
 
     deposit(0.1 ether, address(0));
   }
@@ -239,5 +247,15 @@ contract ybUSDB is ERC20 {
   /// @param _owner The owner of the ybUSDB.
   function maxRedeem(address _owner) external view returns (uint256) {
     return balanceOf[_owner];
+  }
+
+  function setDev(address _dev) external {
+    require(msg.sender == dev, "FORBIDDEN");
+    dev = _dev;
+  }
+
+  function setPointsOperator(address _pointsOperator) external {
+    require(msg.sender == dev, "FORBIDDEN");
+    blastPoints.configurePointsOperator(_pointsOperator);
   }
 }

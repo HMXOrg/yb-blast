@@ -12,6 +12,7 @@ import {FixedPointMathLib} from "lib/solmate/src/utils/FixedPointMathLib.sol";
 // Interfaces
 import {IERC20Rebasing, YieldMode} from "src/interfaces/IERC20Rebasing.sol";
 import {IBlast} from "src/interfaces/IBlast.sol";
+import {IBlastPoints} from "src/interfaces/IBlastPoints.sol";
 import {IWETH} from "src/interfaces/IWETH.sol";
 
 contract ybETH is ERC20 {
@@ -25,6 +26,8 @@ contract ybETH is ERC20 {
   error ZeroShares();
 
   // Configs
+  address public dev;
+  IBlastPoints public immutable blastPoints;
   IERC20Rebasing public immutable asset;
   YieldInbox public immutable yieldInbox;
 
@@ -37,15 +40,20 @@ contract ybETH is ERC20 {
     address indexed caller, address indexed receiver, address indexed owner, uint256 assets, uint256 shares
   );
 
-  constructor(IERC20Rebasing _weth, IBlast _blast) ERC20("ybETH", "ybETH", 18) {
+  constructor(IERC20Rebasing _weth, IBlast _blast, IBlastPoints _blastPoints, address _blastPointsOperator)
+    ERC20("ybETH", "ybETH", 18)
+  {
     // Effect
+    dev = msg.sender;
     asset = _weth;
+    blastPoints = _blastPoints;
     yieldInbox = new YieldInbox();
 
     // Config before deposit dead shares
     asset.configure(YieldMode.CLAIMABLE);
     _blast.configureClaimableGas();
     _blast.configureGovernor(msg.sender);
+    _blastPoints.configurePointsOperator(_blastPointsOperator);
 
     deposit(0.1 ether, address(0));
   }
@@ -325,5 +333,15 @@ contract ybETH is ERC20 {
     if (msg.sender != address(asset)) {
       depositETH(msg.sender);
     }
+  }
+
+  function setDev(address _dev) external {
+    require(msg.sender == dev, "FORBIDDEN");
+    dev = _dev;
+  }
+
+  function setPointsOperator(address _pointsOperator) external {
+    require(msg.sender == dev, "FORBIDDEN");
+    blastPoints.configurePointsOperator(_pointsOperator);
   }
 }

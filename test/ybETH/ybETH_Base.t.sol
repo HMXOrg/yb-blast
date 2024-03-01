@@ -10,6 +10,7 @@ import {SafeTransferLib} from "lib/solmate/src/utils/SafeTransferLib.sol";
 // Tests
 import {MockErc20Rebasing} from "test/mocks/MockErc20Rebasing.sol";
 import {MockBlast} from "test/mocks/MockBlast.sol";
+import {MockBlastPoints} from "test/mocks/MockBlastPoints.sol";
 
 // Contracts
 import {ybETH} from "src/ybETH.sol";
@@ -20,6 +21,7 @@ abstract contract ybETH_BaseTest is Test {
   address public bob;
 
   MockBlast public blast;
+  MockBlastPoints public blastPoints;
   MockErc20Rebasing public weth;
   ybETH public ybeth;
 
@@ -29,11 +31,12 @@ abstract contract ybETH_BaseTest is Test {
 
     weth = new MockErc20Rebasing();
     blast = new MockBlast();
+    blastPoints = new MockBlastPoints();
 
     // Mint 0.1 WETH to deployer to seed the vault
     vm.deal(address(this), 0.1 ether);
     weth.deposit{value: 0.1 ether}();
-    weth.approve(0xF62849F9A0B5Bf2913b396098F7c7019b51A820a, 0.1 ether);
-    ybeth = new ybETH(weth, blast);
+    weth.approve(0x5991A2dF15A8F6A256D3Ec51E99254Cd3fb576A9, 0.1 ether);
+    ybeth = new ybETH(weth, blast, blastPoints, address(this));
   }
 }
