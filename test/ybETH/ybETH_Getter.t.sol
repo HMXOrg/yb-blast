@@ -51,7 +51,7 @@ contract ybETH_GetterTest is ybETH_BaseTest {
     ybeth.deposit(1_000 ether, alice);
     vm.stopPrank();
 
-    assertEq(ybeth.maxWithdraw(address(this)), 1_040 ether);
+    assertEq(ybeth.maxWithdraw(address(this)), 1039996000399960003999);
     assertApproxEqAbs(ybeth.maxWithdraw(alice), 1_000 ether, 1);
   }
 
@@ -70,7 +70,7 @@ contract ybETH_GetterTest is ybETH_BaseTest {
     // receive less shares.
     weth.setNextYield(40 ether);
 
-    assertEq(ybeth.maxWithdraw(address(this)), 1_040 ether);
+    assertEq(ybeth.maxWithdraw(address(this)), 1039996000399960003999);
   }
 
   function testCorrectness_MaxRedeem() external {
@@ -98,7 +98,7 @@ contract ybETH_GetterTest is ybETH_BaseTest {
     ybeth.deposit(1_000 ether, alice);
     vm.stopPrank();
 
-    uint256 _expectedAliceShares = uint256(1_000 ether) * uint256(1_000 ether) / uint256(1_040 ether);
+    uint256 _expectedAliceShares = uint256(1_000 ether) * uint256(1_000.1 ether) / uint256(1_040.1 ether);
     assertEq(ybeth.maxRedeem(address(this)), 1_000 ether);
     assertEq(ybeth.maxRedeem(alice), _expectedAliceShares);
   }
@@ -116,7 +116,7 @@ contract ybETH_GetterTest is ybETH_BaseTest {
     // receive less shares.
     weth.setNextYield(40 ether);
 
-    uint256 _expectedShares = uint256(1_000 ether) * uint256(1_000 ether) / uint256(1_040 ether);
+    uint256 _expectedShares = uint256(1_000 ether) * uint256(1_000.1 ether) / uint256(1_040.1 ether);
     assertEq(ybeth.previewDeposit(1_000 ether), _expectedShares);
   }
 
@@ -133,7 +133,7 @@ contract ybETH_GetterTest is ybETH_BaseTest {
     // receive less shares.
     weth.setNextYield(40 ether);
 
-    assertEq(ybeth.previewRedeem(1_000 ether), 1_040 ether);
+    assertEq(ybeth.previewRedeem(1_000 ether), 1039996000399960003999);
   }
 
   function testCorrectness_PreviewMint_WhenUnclaimedYield() external {
@@ -149,7 +149,7 @@ contract ybETH_GetterTest is ybETH_BaseTest {
     // receive less shares.
     weth.setNextYield(40 ether);
 
-    uint256 _expectedShares = uint256(1_000 ether) * uint256(1_000 ether) / uint256(1_040 ether);
+    uint256 _expectedShares = uint256(1_000 ether) * uint256(1_000.1 ether) / uint256(1_040.1 ether);
     assertEq(ybeth.previewMint(_expectedShares), 1_000 ether);
   }
 }

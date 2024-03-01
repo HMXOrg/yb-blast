@@ -21,9 +21,9 @@ contract ybusdb_DepositTest is ybUSDB_BaseTest {
     ybusdb.deposit(1_000 ether, address(this));
     // Assert
     assertEq(ybusdb.balanceOf(address(this)), 1_000 ether);
-    assertEq(ybusdb.totalAssets(), 1_000 ether);
-    assertEq(mockUsdb.balanceOf(address(ybusdb)), 1_000 ether);
-    assertEq(ybusdb.totalSupply(), 1_000 ether);
+    assertEq(ybusdb.totalAssets(), 1_000.1 ether);
+    assertEq(mockUsdb.balanceOf(address(ybusdb)), 1_000.1 ether);
+    assertEq(ybusdb.totalSupply(), 1_000.1 ether);
 
     // Assuming we have a large pending yields
     // which then inflated the share value.
@@ -51,9 +51,9 @@ contract ybusdb_DepositTest is ybUSDB_BaseTest {
     ybusdb.deposit(1_000 ether, address(this));
     // Assert
     assertEq(ybusdb.balanceOf(address(this)), 1_000 ether);
-    assertEq(ybusdb.totalAssets(), 1_000 ether);
-    assertEq(mockUsdb.balanceOf(address(ybusdb)), 1_000 ether);
-    assertEq(ybusdb.totalSupply(), 1_000 ether);
+    assertEq(ybusdb.totalAssets(), 1_000.1 ether);
+    assertEq(mockUsdb.balanceOf(address(ybusdb)), 1_000.1 ether);
+    assertEq(ybusdb.totalSupply(), 1_000.1 ether);
 
     // Assuming USDB is rebased, totalAssets should be updated
     // when the next deposit is called, hence the next user should
@@ -69,10 +69,10 @@ contract ybusdb_DepositTest is ybUSDB_BaseTest {
     ybusdb.deposit(1_000 ether, alice);
     vm.stopPrank();
     // Assert
-    uint256 _expectedAliceShares = uint256(1_000 ether) * uint256(1_000 ether) / uint256(1_040 ether);
+    uint256 _expectedAliceShares = uint256(1_000 ether) * uint256(1_000.1 ether) / uint256(1_040.1 ether);
     assertEq(ybusdb.balanceOf(alice), _expectedAliceShares);
-    assertEq(ybusdb.totalAssets(), 2_040 ether);
-    assertEq(mockUsdb.balanceOf(address(ybusdb)), 2_040 ether);
-    assertEq(ybusdb.totalSupply(), 1_000 ether + _expectedAliceShares);
+    assertEq(ybusdb.totalAssets(), 2_040.1 ether);
+    assertEq(mockUsdb.balanceOf(address(ybusdb)), 2_040.1 ether);
+    assertEq(ybusdb.totalSupply(), 1_000.1 ether + _expectedAliceShares);
   }
 }

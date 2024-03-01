@@ -9,6 +9,7 @@ import {SafeTransferLib} from "lib/solmate/src/utils/SafeTransferLib.sol";
 
 // Tests
 import {MockErc20Rebasing} from "test/mocks/MockErc20Rebasing.sol";
+import {MockBlast} from "test/mocks/MockBlast.sol";
 
 // Contracts
 import {ybUSDB} from "src/ybUSDB.sol";
@@ -18,14 +19,22 @@ abstract contract ybUSDB_BaseTest is Test {
   address public alice;
   address public bob;
 
+  MockBlast public blast;
   MockErc20Rebasing public mockUsdb;
+
   ybUSDB public ybusdb;
 
   function setUp() public virtual {
     alice = makeAddr("alice");
     bob = makeAddr("bob");
 
+    blast = new MockBlast();
     mockUsdb = new MockErc20Rebasing();
-    ybusdb = new ybUSDB(mockUsdb);
+
+    // Mint 0.1 USDB to deployer to seed the vault
+    mockUsdb.mint(address(this), 0.1 ether);
+    mockUsdb.approve(0xF62849F9A0B5Bf2913b396098F7c7019b51A820a, 0.1 ether);
+
+    ybusdb = new ybUSDB(mockUsdb, blast);
   }
 }

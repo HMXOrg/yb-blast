@@ -33,6 +33,8 @@ contract MockBlast is CommonBase, IBlast {
 
   function configureClaimableGas() external override {}
 
+  function configureGovernor(address) external override {}
+
   function claimAllGas(address, address) external pure override returns (uint256) {
     return 0;
   }
